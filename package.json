@@ -1,0 +1,46 @@
+{
+  "name": "stomp-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "serve": "node test.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./start.js",
+    "prod": "cross-env NODE_ENV=production nodemon ./start.js",
+    "parse": "babel server/routes/login.js -o compiled.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.10.4",
+    "glob": "^7.1.6",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-log4": "^2.3.2",
+    "koa-router": "^9.1.0",
+    "mysql2": "^2.1.0",
+    "pm2": "^4.4.0",
+    "pm2-intercom": "^1.0.0",
+    "ramda": "^0.27.1",
+    "sequelize": "^6.3.4",
+    "socket.io": "^2.3.0",
+    "socketio-jwt": "^4.6.2",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/plugin-syntax-class-properties": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.10.5",
+    "babel-preset-env": "^1.7.0",
+    "chalk": "^4.1.0",
+    "cross-env": "^7.0.2",
+    "mocha": "^8.1.1",
+    "nodemon": "^2.0.4"
+  }
+}

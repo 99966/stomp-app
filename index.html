@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-ch">
+<head>
+    <meta charset="UTF-8">
+    <title>Minimal working example</title>
+    <style>
+        div > ul {
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<input id="test" type="text">
+<button id="send">发送</button>
+<div>
+    <ul id="events"></ul>
+    <ul id="events1"></ul>
+</div>
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<!--<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
+<script>
+    const $events = document.getElementById('events');
+    const $events1 = document.getElementById('events1');
+
+    const newItem = (content) => {
+        const item = document.createElement('li');
+        item.innerText = content;
+        return item;
+    };
+    var options = {
+        forceNew: true,
+        query: 'token=' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InpoYW5nc2FuIiwiaW5mbyI6MTIzLCJpYXQiOjE1OTcyOTk3NjksImV4cCI6MTU5NzMxNzc2OX0.R5eynnACZXODfrNz9kJXh7J8pUW8KPKp5bjpHA4s-bY'
+    }
+
+    // const socket = io('http://127.0.0.1:3000');
+    const admin = io('http://119.45.113.103:3000/user',options)
+    // const admin = io('http://127.0.0.1:3000/user',options)
+    // socket.on('connect', () => {
+    //     console.log('io -connect')
+    //     $events.appendChild(newItem('socket - connect'));
+    // })
+    // socket.on('delete user', (counter) => {
+    //     console.log('socket delete user')
+    //     $events.appendChild(newItem(`socket delete user - ${counter}`));
+    // });
+
+
+    admin.on('connect', counter => {
+        console.log('admin - connect')
+        $events1.appendChild(newItem('admin - connect'));
+    })
+
+    admin.on('delete user', data => {
+        console.log('admin delete user ')
+        $events1.appendChild(newItem(`admin - ${data}`));
+    });
+
+    admin.on('test', (data, fn) => {
+        console.log('admin test event ')
+        console.log(fn)
+        fn()
+        $events1.appendChild(newItem(`admin test - ${data}`));
+    });
+    admin.on('error', (err) => {
+        console.log(err)
+        admin.close();
+    })
+
+    document.addEventListener('change', function (e) {
+        e.stopPropagation()
+        var inputvalue = document.getElementById('test').value
+        admin.emit('test', JSON.stringify({message: inputvalue}))
+    })
+
+</script>
+</body>
+</html>
